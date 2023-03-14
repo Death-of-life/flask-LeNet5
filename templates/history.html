@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>上传历史记录</h1>
+
+  {% if rows|length == 0 %}
+    <p>暂无上传记录。</p>
+  {% else %}
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>上传时间</th>
+          <th>图片路径</th>
+          <th>预测结果</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td><a href="{{ row[2] }}" target="_blank">{{ row[2] }}</a></td>
+            <td>{{ row[3] }}</td>
+            <td><a href="/delete/{{ row[0] }}" class="btn btn-danger btn-sm">删除</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

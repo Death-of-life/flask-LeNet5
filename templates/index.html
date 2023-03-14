@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Lenet5模型预测</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="file">上传文件:</label>
+      <input type="file" name="file" id="file" class="form-control-file">
+      <small class="form-text text-muted">请选择一个图片文件（PNG、JPG 或 JPEG 格式）进行上传。</small>
+    </div>
+    <button type="submit" class="btn btn-primary">预测</button>
+  </form>
+
+  {% if prediction is defined %}
+    <hr>
+    <h2>预测结果:</h2>
+    <p>图片路径: {{ file_path }}</p>
+    <p>预测结果: {{ prediction }}</p>
+  {% endif %}
+{% endblock %}
