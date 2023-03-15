@@ -12,10 +12,14 @@
     <button type="submit" class="btn btn-primary">预测</button>
   </form>
 
+  <hr>
+  <a href="{{ url_for('history') }}">查看上传历史记录</a>
+
   {% if prediction is defined %}
     <hr>
     <h2>预测结果:</h2>
-    <p>图片路径: {{ file_path }}</p>
+    <p>图片：</p>
+    <img src="{{ file_path }}" alt="uploaded image" class="img-thumbnail">
     <p>预测结果: {{ prediction }}</p>
   {% endif %}
 {% endblock %}

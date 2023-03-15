@@ -97,7 +97,7 @@ def index():
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-
+            file_path=os.path.relpath(file_path)
             # 进行模型预测
             prediction = predict_image(file_path)
 
@@ -139,8 +139,14 @@ def delete(id):
         row = c.fetchone()
 
         if row is not None:
-            # 删除对应的图片文件
-            os.remove(row[0])
+            image_path = row[0]
+
+            # 检查图片是否还被其他记录引用
+            c.execute('SELECT COUNT(*) FROM uploads WHERE image_path=? AND id!=?', (image_path, id))
+            count = c.fetchone()[0]
+            if count == 0:
+                # 如果图片没有被其他记录引用，删除对应的图片文件
+                os.remove(image_path)
 
             # 删除上传记录
             c.execute('DELETE FROM uploads WHERE id=?', (id,))
@@ -148,6 +154,7 @@ def delete(id):
 
     # 返回历史记录页面
     return redirect(url_for('history'))
+
 
 
 if __name__ == '__main__':
